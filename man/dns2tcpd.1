@@ -1,0 +1,83 @@
+.TH dns2tcpd 1
+
+.SH NAME 
+dns2tcpd \- A tunneling tool that encapsulate TCP traffic over DNS.
+
+.SH SYNOPSIS 
+.B dns2tcpd 
+[
+.B \-h
+] [
+.B \-F
+] [
+.B \-i
+.I address
+] [
+.B \-f
+.I config_file
+] [
+.B \-p
+.I pidfile
+] [
+.B \-d 
+.I debug_level
+]
+.br
+.ad
+
+.SH DESCRIPTION 
+dns2tcp is a network tool used to encapsulate TCP communications in
+DNS. When connections are received on a specific port all TCP traffic is
+sent to the remote dns2tcpd server and forwarded to a specific host and
+port. Multiple connections are supported. 
+
+.PP 
+It was written for demonstration purposes
+
+.SH OPTIONS 
+.TP
+.BI -h
+Help Menu
+.TP
+.BI -F
+Run in foreground
+.TP
+\fB\-i\fR \fBIP address\fR
+IP address to bind (default 0.0.0.0)
+.TP
+\fB\-f\fR \fBconfig file\fR
+Configuration file to use
+.TP
+\fB\-p\fR \fBpidfile\fR
+File where our pid will be written 
+.TP
+\fB\-d\fR \fBdebug level\fR
+Change debug level. Levels available are 1, 2 or 3.
+
+.SH CONFIGURATION FILES
+By default ${HOME}/.dns2tcprcd is used if no configuration file is
+specified. The resource syntax is
+<resource-name>:<server>:<port>. Multiple resources can be defined in
+multilines, but must be comma separated.
+
+Here is an example :
+.TP
+.nf
+.in 7
+listen = 127.0.0.1
+port = 53
+user = nobody
+chroot = /tmp
+pid_file = /var/run/dns2tcp.pid
+domain = dns2tcp.hsc.fr
+debug_level = 0
+resources = ssh:127.0.0.1:22 , smtp:127.0.0.1:25,
+             pop3:10.0.0.1:110
+.fi
+
+.SH AUTHORS
+Olivier Dembour <olivier.dembour@hsc.fr>
+
+.SH SEE ALSO
+ssltunnel 
+

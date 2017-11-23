@@ -1,0 +1,62 @@
+# $Id: configure.in,v 1.19.4.7 2010/06/16 08:40:10 dembour Exp $
+
+AC_INIT([dns2tcp],[0.5.2])
+AC_CONFIG_SRCDIR(client/main.c)
+AM_INIT_AUTOMAKE
+
+#AC_PROG_MAKE_SET(make)
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_CONFIG_HEADERS(config.h)
+AC_CANONICAL_HOST
+
+AC_ARG_WITH([server],
+		  [AS_HELP_STRING([--without-server],
+		  [without server (default is no)])],
+		  [],
+		  [
+			DIRECTORIES=server
+			MAN_PAGES=dns2tcpd.1
+		  ]
+		  )
+
+AC_ARG_WITH([client],
+		  [AS_HELP_STRING([--without-client],
+		  [without client (default is no)])],
+		  [],
+		  [
+			DIRECTORIES=${DIRECTORIES}" client"
+                        MAN_PAGES=${MAN_PAGES}" dns2tcpc.1"
+	          ]
+		  )
+
+case  "x${host_os}" in
+  x*mingw*)
+	# Client only
+	DIRECTORIES=client
+	echo "Warning : server will not be build on Windows system"
+  	LIBS="$LIBS -lws2_32 -liphlpapi"
+	;;
+esac
+
+
+AC_SUBST(DIRECTORIES)
+AC_SUBST(MAN_PAGES)
+AC_SUBST(AUTOMAKE)
+AC_SUBST(AUTOCONF)
+AC_SUBST(PACKAGE)
+AC_SUBST(VERSION)
+
+CFLAGS="$CFLAGS -Wall -Wunused "
+
+AC_C_BIGENDIAN
+AC_CHECK_HEADERS(sys/types.h)
+dnl If any socket libraries needed
+AC_CHECK_HEADERS(winsock2.h)
+AC_SEARCH_LIBS(gethostent, nsl)
+AC_SEARCH_LIBS(setsockopt, socket)
+
+# AM_CONDITIONAL(ARCH_WIN32, [ test x$win32 = xtrue ])	
+
+AC_CONFIG_FILES([Makefile client/Makefile server/Makefile man/Makefile])
+AC_OUTPUT

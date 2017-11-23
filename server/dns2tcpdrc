@@ -1,0 +1,12 @@
+ # config file 
+
+listen = 127.0.0.1
+port = 53
+user=nobody
+chroot = /var/empty/dns2tcp/
+pid_file = /var/run/dns2tcp.pid
+domain = dns2tcp.hsc.fr
+key = blah
+resources = ssh:127.0.0.1:22 , 	 smtp:127.0.0.1:25,
+		pop3:10.0.0.1:110 
+

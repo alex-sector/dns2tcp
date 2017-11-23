@@ -1,0 +1,10 @@
+#
+# configuration :
+#
+
+domain = dns2tcp.hsc.fr
+resource = ssltunnel
+local_port = 4430
+key = blah
+debug_level=1
+# server = my_dns

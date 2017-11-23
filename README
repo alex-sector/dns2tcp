@@ -1,5 +1,5 @@
 
-# Note
+---------- [ Note ] ----------
 
 Dns2tcp is a tool for relaying TCP connections over DNS. There is only
 a simple identification mecanism but no encryption : DNS encapsulation
@@ -8,30 +8,30 @@ layer. Resources should be public external services like ssh,
 ssltunnel ...  
 
 
-## Examples
+----------[ Examples ]----------
 
 
-### Client:
+Client:
+------
 
 
 View list of available connection.
-```sh
+
 	$ dns2tcpc -z dns2tcp.hsc.fr -k <my-key>  <dns_server>
 	Available connection(s) :
 	        ssh-gw
 	        ssh6-home
 	        ssl-tunnel
 	$
-```
+
 Line based connection to a remote ssl-tunnel host :
-```sh
+
 	$ dns2tcpc -r ssl-tunnel -l 4430 -k <my-key> -z dns2tcp._hsc.fr <dns_server>
 	listening on port 4430
 	...
 	
-```
 File configuration :
-```sh
+
 	$ cat > ~/.dns2tcprc << EOF
 	
 	domain = dns2tcp.hsc.fr
@@ -42,13 +42,14 @@ File configuration :
 	server = the_dns_server # or scan /etc/resolv.conf
 	EOF
 	$ dns2tcpc
-```
 
-### Server :
+
+Server :
+-------
 
 File configuration :
 
-```sh
+
 	$ cat > ~/.dns2tcpdrc << EOF
 	
 	listen = x.x.x.x
@@ -63,9 +64,8 @@ File configuration :
 	EOF
 	$ ./dns2tcpd -F -d 1
 
-```
 
-# Known Bugs
+----------[ Known Bugs ]----------
 
 DNS desynchronisation
 dns2tcpd server not supported on Windows

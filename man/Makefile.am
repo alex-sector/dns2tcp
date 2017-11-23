@@ -1,0 +1,2 @@
+man1_MANS = $(MAN_PAGES)
+EXTRA_DIST = $(MAN_PAGES)

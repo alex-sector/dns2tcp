@@ -1,0 +1,46 @@
+Version 0.5.2
+	Removal of left OpenSSL includes
+
+Version 0.5.1
+	Remove OpenSSL library due to GPL conflicts
+		- Add specific PolarSSL hmac functions in dns2tcp
+		- No more external library needed
+	Kill child when authentication fails
+	Remove useless '=' padding
+	
+Version 0.5
+	Typo fixed in config file  :
+	resource is know correctly written (with one 's')
+
+ 	Client now compiles and works under Windows (by Nicolas Collignon)
+	find the first DNS if server not specified
+	add --disable-{client,server} option in Makefile
+	Request type are now independant (TXT, KEY)
+	Add a client authentication (identification)
+	Fix bind problem and typo (Thanks Taylor R Campbell)
+	Server now put the AA flag in reply (Thanks Taylor R Campbell)
+	Client can execute command (for reverse connection)
+	dns2tcpc can be used as a proxy (like ProxyCommand for SSH) 
+ 	pid file can be defined in the config file (patch from Michael Scherer)
+
+Version 0.4.3
+        Fix buffer overflow and error in dns_decode (John Lampe)
+        Fix drop privileges problems (Solar Designer)
+        Add limit to prevent fork() (Idea from Solar Designer)
+
+Version 0.4.2
+        Suppressed
+        
+Version 0.4.1   
+        Fix buffer overflow in dns_decode
+        Fix bind Problem (thanks Taylor R Campbell)
+        Fix compilation problem in FreeBSD
+
+Version 0.4
+	Typo fixed in README, manpages
+	64 bits architectures now working
+	Fix bind on 0.0.0.0 in server (Thanks Charlie Von Metzradt)
+	client more reliable
+
+Version 0.3
+	public release

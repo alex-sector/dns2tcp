@@ -260,7 +260,7 @@ void		dns_simple_decode_strip_dot(char *input, char *output, int max_len)
   
   ptr = input;
   *output = 0;
-  while (*ptr)
+  while (total_len < max_len - 1)
     {
       len = (uint8_t) *ptr;
       /* compression not supported */

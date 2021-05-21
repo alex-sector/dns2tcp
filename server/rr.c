@@ -140,7 +140,7 @@ void                    *rr_add_reply_encode(t_conf *conf, t_request *req, struc
   rr = rr_add_data(hdr, where, req->reply_functions->reply_type, encoded_data, 0);
   where = JUMP_RR_HDR(rr);
   dns_encode(where);
-  len = strlen(where) + 1; /* len + byte 0 (label data) */
+  len = strlen(where);
   PUT_16(&rr->rdlength,len);
   return (where + len);
 }

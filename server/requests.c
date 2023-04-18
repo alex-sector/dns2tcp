@@ -211,6 +211,35 @@ int			send_reply(t_conf *conf, t_request *req, t_data *data)
     }
   return (0);
 }
+
+/**
+ * @brief send SERVFAIL reply 
+ * @param[in] req request to use
+ * @param[in] data data to send
+ * @retval 0 on success
+ * @retval -1 on error
+ **/
+
+int			send_servfail(t_conf *conf, t_request *req, t_data *data)
+{
+  struct dns_hdr	*hdr;
+
+  hdr = (struct dns_hdr *) req->data;
+  hdr->ra = 1;
+  hdr->aa = 1;
+  hdr->qr = 1;
+  hdr->rcode = 2;
+
+  DPRINTF(3, "Sending SERVFAIL len = %d dns id = 0x%x\n", req->len, ntohs(hdr->id));
+  if ((sendto(conf->sd_udp, req->data, req->len, 
+	      0, (struct sockaddr *)&req->sa, sizeof(struct sockaddr))) != req->len)
+    {
+      MYERROR("sendto error");
+      return (-1);
+    }
+  return (0);
+}
+
 /**
  * @brief send immediatly an error reply 
  * @param[in] req request to use
@@ -270,7 +299,10 @@ int			get_incoming_request(t_conf *conf)
    ((char *)req.data)[req.len] = 0;
    type = get_type_request(&req);
    if (!type)
-     return (-1);
+     {
+       send_servfail(conf, &req, &decoded_data);
+       return (-1);
+     }
    if ((req.reply_functions = get_rr_function_by_type(type)))
      {
        if (get_request(conf, &req, &decoded_data) <= 0)
@@ -280,5 +312,6 @@ int			get_incoming_request(t_conf *conf)
        if (!session_request(conf, &req, &decoded_data))
 	 return (0);
      }
+   send_servfail(conf, &req, &decoded_data);
    return (-1);
  }
